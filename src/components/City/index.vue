@@ -131,6 +131,8 @@ export default {
   text-align: center;
   box-sizing: border-box;
 }
+
+
 .city_body .city_sort div {
   margin-top: 20px;
 }
