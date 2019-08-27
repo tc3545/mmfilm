@@ -1,10 +1,10 @@
 <template>
   <div id="main">
     <Header />
-    <div class="content">
+    <div id="content">
       <div class="movie_menu">
         <router-link tag="div" to='/movie/city' class="city_name">
-          <span>大连</span>
+          <span>广州</span>
           <i class="iconfont icon-lower-triangle"></i>
         </router-link>
         <div class="hot_swtich">
@@ -46,7 +46,7 @@ export default {
   z-index: 10;
 }
 .movie_menu .city_name {
-  float: left;
+  /* float: left; */
   margin-left: 20px;
   height: 100%;
   line-height: 45px;
@@ -64,7 +64,7 @@ export default {
   display: flex;
   height: 100%;
   line-height: 45px;
-  float: left;
+
 }
 .movie_menu .hot_item {
   font-size: 15px;
