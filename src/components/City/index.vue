@@ -1,10 +1,13 @@
 <template>
   <div class="city_body">
     <div class="city_list">
+      <Loading v-if="isLoading"/>
+      <Scroller v-else ref='city_List'>
+      <div>
       <div class="city_hot">
         <h2>热门城市</h2>
         <ul class="clearfix">
-          <li v-for='item in hotList' :key='item.id'>{{item.nm}}</li>
+          <li @tap="handleToCity(item.nm,item.id)"  v-for='item in hotList' :key='item.id'>{{item.nm}}</li>
         </ul>
       </div>
 
@@ -12,11 +15,14 @@
         <div v-for='item in cityList' :key='item.id'>
           <h2>{{item.index}}</h2>
           <ul>
-            <li v-for='itemL in item.list' :key='itemL.id'>{{itemL.nm}}</li>
+            <li @tap="handleToCity(itemL.nm,itemL.id)" v-for='itemL in item.list' :key='itemL.id'>{{itemL.nm}}</li>
           </ul>
         </div>
       </div>
-</div>
+    </div>
+      </Scroller>
+    </div>
+
     <div class="city_index" >
       <ul>
         <li  v-for='(item,index) in cityList' :key='item.index' @touchstart="handleToIndex(index)">{{item.index}}</li>
@@ -31,18 +37,33 @@ export default {
   data(){
     return{
       cityList:[],
-      hotList:[]
+      hotList:[],
+      isLoading:true
     }
   },
   mounted(){
+
+        var cityList = window.localStorage.getItem('cityList')
+        var hotList = window.localStorage.getItem('hotList')
+
+        if(cityList&&hotList){
+          this.cityList = JSON.parse(cityList);
+          this.hotList = JSON.parse(hotList);
+          this.isLoading= false;
+        }
+        
         this.axios.get("/api/cityList").then((res)=>{
           var msg = res.data.msg;
           if(msg==='ok'){
             var cities = res.data.data.cities;
+            this.isLoading=false
             
            var{cityList,hotList} = this.formatCityList(cities);
            this.cityList = cityList;
            this.hotList  = hotList;
+
+           window.localStorage.setItem('cityList',JSON.stringify(cityList));
+           window.localStorage.setItem('hotList',JSON.stringify(hotList));
             
           }
          
@@ -97,8 +118,19 @@ export default {
         },
         handleToIndex(index){
             var h2 = this.$refs.city_sort.getElementsByTagName('h2');
-            this.$refs.city_sort.parentNode.scrollTop = h2[index].offsetTop
+            
+            this.$refs.city_List.handleToSCrollmove(-h2[index].offsetTop)
         },
+        handleToCity(nm,id){
+          this.$store.commit('city/CITY_INFO',{nm,id});
+          
+          this.$router.push('/movie/nowPlaying');
+
+
+          window.localStorage.setItem('nowNm',nm)
+          window.localStorage.setItem('nowId',id)
+
+        }
     }
  
 };

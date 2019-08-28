@@ -5,7 +5,7 @@
 					<i class="iconfont icon-dianying"></i>
 					<p>电影</p>
 				</router-link>
-				<router-link tag="li" to='./cinema'>
+				<router-link tag="li" to='/cinema'>
 					<i class="iconfont icon-yingyuan"></i>
 					<p>影院</p>
 				</router-link>

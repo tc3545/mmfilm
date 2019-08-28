@@ -1,21 +1,24 @@
 <template>
   <div class="movie_body">
+    <Loading v-if="isLoading"/>
+    <Scroller v-else>
     <ul>
       <li v-for='item in comeList' :key='item.id'>
-        <div class="pic_show">
+        <div class="pic_show" @tap="handleToDetail(item.id)">
           <img :src="item.img | setWH('128.180')" />
         </div>
         <div class="info_list">
-          <h2>{{item.nm}}</h2>
+          <h2 @tap="handleToDetail(item.id)">{{item.nm}}</h2>
           <p>
             <span class="person">{{item.wish}}</span> 人想看
           </p>
           <p>{{item.star}}</p>
-          <p>{{item.showInfo}}}</p>
+          <p>{{item.showInfo}}</p>
         </div>
         <div class="btn_pre">预售</div>
       </li>
     </ul>
+    </Scroller>
   </div>
 </template>
 
@@ -24,17 +27,31 @@ export default {
   name: "ComingSoon",
   data(){
     return{
-      comeList:[]
+      comeList:[],
+      isLoading:true,
+      prevCityId:-1
     }
   },
-  mounted() {
-    this.axios.get("/api/movieComingList?cityId=10").then(res => {
+  activated() {
+    var cityId = this.$store.state.city.id
+    if(this.prevCityId === cityId){
+      return;
+    }
+    this.isLoading= true
+    this.axios.get("/api/movieComingList?cityId="+cityId).then(res => {
       var Msg = res.data.msg;
       if (Msg === "ok") {
-		this.comeList = res.data.data.comingList;
+    this.comeList = res.data.data.comingList;
+    this.isLoading=false
+    this.prevCityId = cityId
 		
       }
     });
+  },
+  methods:{
+    handleToDetail(id){
+     this.$router.push('/movie/detail/2/'+id)
+    },
   }
 };
 </script>

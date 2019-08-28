@@ -7,13 +7,29 @@
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
     <link rel="stylesheet" href="<%= BASE_URL %>css/common.css">
     <link rel="stylesheet" href="<%= BASE_URL %>css/iconfont/iconfont.css">
+    <link rel="stylesheet" href="<%= BASE_URL %>css/libs/swiper-4.1.0.min.css">
+    <script src="<%= BASE_URL %>libs/swiper-4.1.0.min.js"></script>
     <title>mmfilm</title>
   </head>
   <body>
     <noscript>
       <strong>We're sorry but mmfilm doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
     </noscript>
-    <div id="app"></div>
+    <style>
+      #app{
+        display: flex;
+        height: 100%;
+      }
+       .i{
+         margin: 50% auto;
+       }
+       
+    </style>
+    <div id="app">
+      <div class="i">
+        正在为您努力加载中...
+      </div>
+    </div>
     <!-- built files will be auto injected -->
   </body>
 </html>
