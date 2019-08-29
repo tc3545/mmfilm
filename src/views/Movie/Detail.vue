@@ -5,7 +5,7 @@
 			<i class="iconfont icon-right" @touchstart='handleToBack'></i>
 		</Header>
 	    
-			
+		
 		<div id="content" class="contentDetail">
 			<div class="detail_list">
 				<div class="detail_list_bg" :style="{'background-image':'url('+detailMovie.albumImg+')'}"></div>

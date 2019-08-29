@@ -1,4 +1,5 @@
 module.exports ={
+    publicPath:'/cryy',
     devServer:{
         proxy:{
             "/api":{
