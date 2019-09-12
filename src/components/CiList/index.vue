@@ -5,7 +5,7 @@
     <ul>
       <li v-for='item in cinemaList' :key='item.id'>
         <div>
-          <span>{{item.nm}}</span>
+          <span @tap='add'>{{item.nm}}</span>
           <span class="q">
             <span class="price">{{item.sellPrice}}</span> 元起
           </span>
@@ -18,13 +18,14 @@
           <div :class="key | classCard" v-for='(num,key) in item.tag' v-if="num===1" :key='key'>{{key | formatCard}}</div>
         </div>
       </li>
-
     </ul>
     </Scroller>
+    
   </div>
 </template>
 
 <script>
+import Ccity from '../Down/Ccity.vue'
 export default {
   name:'CiList',
   data(){
@@ -32,14 +33,18 @@ export default {
        cinemaList:[],
        isLoading:true,
        prevCityId:-1
+      
     }
   },
+  
   activated(){
     var cityId = this.$store.state.city.id
     if(this.prevCityId === cityId){
       return;
     }
     this.isLoading= true
+    
+    
     this.axios.get('/api/cinemaList?cityId='+cityId).then((res)=>{
       var msg = res.data.msg
       if(msg==='ok'){
@@ -48,6 +53,13 @@ export default {
          this.prevCityId = cityId
       }
     })
+  },
+  methods:{
+    add(){
+     this.$router.push({
+       path:'/cityfilm'
+     })
+    },
   },
   filters:{
     formatCard(key){
@@ -134,4 +146,22 @@ export default {
   color: #589daf;
   border: 1px solid #589daf;
 }
+
+/* .one{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    
+}
+.move-enter,.move-leave-to{
+    transform: translateY(-100%);
+}
+.move-enter-active,.move-leave-active{
+    transition: all .5s;
+}
+.move-enter-to,.move-leave{
+    transform: translateY(100%)
+} */
 </style>

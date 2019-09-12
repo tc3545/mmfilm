@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import movieRouter from './movie'
 import mineRouter from './mine'
 import cinemaRouter from './cinema'
+import myfilm from './myfilm'
 
 
 Vue.use(Router)
@@ -13,7 +14,8 @@ export default new Router({
   routes: [
     movieRouter,
     mineRouter,
-    cinemaRouter,
+    ...cinemaRouter,
+    myfilm,
     {
       path:'/*',
       redirect:'./movie'

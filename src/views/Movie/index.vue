@@ -1,6 +1,6 @@
 <template>
   <div id="main">
-    <Header />
+    <Header/>
     <div id="content">
       <div class="movie_menu">
         <router-link tag="div" to='/movie/city' class="city_name">
@@ -20,8 +20,7 @@
       </keep-alive>
     </div>
     <TabBar/>
-    
-    <router-view name='detail'/>>
+    <router-view name='detail'/>
     
   </div>
 </template>
@@ -91,11 +90,11 @@ export default {
 }
 .movie_menu .city_name.active {
   color: #ef4238;
-  border-bottom: 2px solid #ef4238;
+  border-bottom: 2px solid #333;
 }
 .movie_menu .city_name.router-link-active {
   color: #ef4238;
-  border-bottom: 2px solid #ef4238;
+  border-bottom: 2px solid #333;
 }
 .movie_menu .hot_swtich {
 
@@ -104,6 +103,7 @@ export default {
   line-height: 45px;
 
 }
+
 .movie_menu .hot_item {
   font-size: 15px;
   color: #666;
@@ -112,21 +112,22 @@ export default {
   margin: 0 12px;
   font-weight: 700;
 }
-.movie_menu .hot_item.active {
+.movie_menu .hot_item.router-link-active {
   color: #ef4238;
-  border-bottom: 2px #ef4238 solid;
+  border-bottom: 2px #333 solid;
 }
 .movie_menu .search_entry {
   margin-right: 20px;
   height: 100%;
   line-height: 45px;
+  color: #333;
 }
 .movie_menu .search_entry.router-link-active {
   color: #ef4238;
-  border-bottom: 2px #ef4238 solid;
+  border-bottom: 2px #333 solid;
 }
 .movie_menu .search_entry i {
   font-size: 24px;
-  color: red;
+  color: #ef4238;
 }
 </style>

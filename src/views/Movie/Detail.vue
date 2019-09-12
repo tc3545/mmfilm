@@ -4,8 +4,6 @@
 		<Header  title="影片详情">
 			<i class="iconfont icon-right" @touchstart='handleToBack'></i>
 		</Header>
-	    
-		
 		<div id="content" class="contentDetail">
 			<div class="detail_list">
 				<div class="detail_list_bg" :style="{'background-image':'url('+detailMovie.albumImg+')'}"></div>
@@ -59,7 +57,7 @@ export default {
 	},
 	methods:{
 		handleToBack(){
-			this.$router.back()
+			this.$router.go(-1)
 		}
 	},
 	mounted(id){
@@ -107,7 +105,15 @@ export default {
   }
 #content.contentDetail{ display: block; margin-bottom:0;}
 
-#content .detail_list{ height:200px; width:100%; position: relative; overflow: hidden;}
+#content .detail_list{ 
+	height:200px; 
+	width:100%; 
+	position: relative; 
+	overflow: hidden;
+
+	border-bottom-left-radius:5px;
+	border-bottom-right-radius:5px;  
+	}
 .detail_list .detail_list_bg{ width:100%; height:100%; background: url() 0 40%; filter: blur(20px); background-size:cover; position: absolute; left: 0; top: 0;}
 .detail_list .detail_list_filter{ width:100%; height:100%; position: absolute;background-color: #40454d;opacity: .55; position: absolute; left: 0; top: 0; z-index: 1;}
 .detail_list .detail_list_content{ display: flex; width:100%; height:100%; position: absolute; left: 0; top: 0; z-index: 2;}
@@ -117,7 +123,18 @@ export default {
 .detail_list .detail_list_info h2{ font-size: 20px; color:white; font-weight: normal; line-height: 40px;}
 .detail_list .detail_list_info p{ color:white; line-height: 20px; font-size: 14px; color:#ccc;}
 
-#content .detail_intro{ padding: 10px;}
+#content .detail_intro{ 
+	padding: 10px;
+	
+	background-color: #ccc;
+	/* margin-top: 1px; */
+	border-radius:5px; 
+	border-top: 2px double #777;
+	border-bottom: 2px double #777;
+	text-indent: 30px;
+	
+	}
+
 #content .detail_player{ margin:20px;}
 .detail_player .swiper-slide{ width:70px; margin-right: 20px; text-align: center; font-size: 14px;}
 .detail_player .swiper-slide img{ width:100%; margin-bottom: 5px;}

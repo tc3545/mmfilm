@@ -3,7 +3,7 @@
     <Loading v-if="isLoading"/>
     <Scroller v-else>
     <ul>
-      <li v-for='item in comeList' :key='item.id'>
+      <li v-for='(item,index) in comeList' :key='item.id'>
         <div class="pic_show" @tap="handleToDetail(item.id)">
           <img :src="item.img | setWH('128.180')" />
         </div>
@@ -16,6 +16,9 @@
           <p>{{item.showInfo}}</p>
         </div>
         <div class="btn_pre">预售</div>
+        <div ref='like'  @tap='add(item.id,index)' 
+        class="one" 
+        >想看</div>
       </li>
     </ul>
     </Scroller>
@@ -23,13 +26,16 @@
 </template>
 
 <script>
+
 export default {
   name: "ComingSoon",
   data(){
     return{
       comeList:[],
       isLoading:true,
-      prevCityId:-1
+      prevCityId:-1,
+      likeList:[],
+      ischange:false
     }
   },
   activated() {
@@ -48,11 +54,35 @@ export default {
       }
     });
   },
+  
+  computed:{
+    
+  },
   methods:{
     handleToDetail(id){
      this.$router.push('/movie/detail/2/'+id)
     },
+    add(id,index){
+      this.likeList = JSON.parse(window.localStorage.getItem('likeList'))
+      this.ischange = !this.ischange
+        for(let i =0;i<this.comeList.length;i++){
+           if(id === this.comeList[i].id){
+               this.likeList.push(this.comeList[i])         
+           }
+        }
+        this.$refs.like[index].classList.add('active')
+         let l =  this.likeList.filter((item)=>{
+          return item.id == id
+        })
+        
+        // this.likeList=l
+        console.log(this.likeList);
+        this.$store.commit('LIKE_INFO',this.likeList);
+        window.localStorage.setItem('likeList',JSON.stringify(this.likeList))
+        // console.log(this.$store.state.likeList);
+    },
   }
+  
 };
 </script>
 
@@ -64,8 +94,10 @@ export default {
 .movie_body ul {
   margin: 0 12px;
   overflow: hidden;
+  display: block
 }
 .movie_body ul li {
+  position: relative;
   margin-top: 12px;
   display: flex;
   align-items: center;
@@ -75,6 +107,7 @@ export default {
 .movie_body .pic_show {
   width: 64px;
   height: 90px;
+
 }
 .movie_body .pic_show img {
   width: 100%;
@@ -126,5 +159,22 @@ export default {
 }
 .movie_body .btn_pre {
   background-color: #3c9fe6;
+}
+.movie_body .one {
+  position: absolute;
+  bottom: 10px;
+  right:  3%;
+  color: #fff;
+  text-align: center;
+  font-size: 10px;
+  line-height: 25px;
+  height: 25px;
+  width: 25px;
+  border-radius:50%;
+  border: 1px solid #3c9fe6; 
+  background-color: #3c9fe6;
+}
+.movie_body .one.active{
+  background-color: #f03d37;
 }
 </style>

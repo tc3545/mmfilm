@@ -40,7 +40,7 @@ export default {};
 .login_body .login_btn input {
   width: 100%;
   height: 100%;
-  background: #e54847;
+  background: #333;
   border-radius: 3px;
   border: none;
   display: block;
@@ -55,6 +55,6 @@ export default {};
   text-decoration: none;
   margin: 0 5px;
   font-size: 12px;
-  color: #e54847;
+  color: #333;
 }
 </style>

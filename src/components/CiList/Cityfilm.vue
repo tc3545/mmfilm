@@ -1,16 +1,26 @@
 <template>
+<div class="main">
+<Header title="本场电影">
+  <i class="iconfont icon-right" @touchstart='handleToBack'></i>
+</Header>
+    <Lunbo/>
+  <div class="main-line">
+    <div class="left">
+      本场电影
+    </div>
+    <div class="right">更多</div>
+  </div>
   <div class="movie_body" ref="movie_body">
-    
-    <Loading v-if='isLoading'/>
-    <Scroller v-else :handleToScroll='handleToScroll' :handleToTouchEnd='handleToTouchEnd'>
+      <!-- <Loading v-if='isLoading'/>s -->
+      <!-- <Scroller> -->
+        <!-- v-else :handleToScroll='handleToScroll' :handleToTouchEnd='handleToTouchEnd' -->   
     <ul>
-      <li class="pullDown">{{pullDownMsg}}</li>
       <li v-for="item in moveList" :key="item.id">
-        <div class="pic_show" @tap="handleToDetail(item.id)">
+        <div class="pic_show" @click="handleToDetail(item.id)">
           <img :src="item.img | setWH('128.180')" />
         </div>
         <div class="info_list">
-          <h2 @tap="handleToDetail(item.id)">
+          <h2 @click="handleToDetail(item.id)">
             {{item.nm}}
             <img v-if="item.version" src="../../assets/maxs.png" />
           </h2>
@@ -19,25 +29,33 @@
             <span class="grade">{{item.sc}}</span>
           </p>
           <p>{{item.star}}</p>
-          <p>{{item.showInfo}}</p>
         </div>
         <div class="btn_mall">购票</div>
       </li>
     </ul>
-    </Scroller>
+    
+    <!-- </Scroller> -->
+  </div>
+  <router-view name='detail'/>
   </div>
 </template>
 
 <script>
 import Bscroll from 'better-scroll'
+
+import Header from "../../components/Header";
+import TabBar from "../../components/TabBar";
+import Lunbo from '../../components/Lunbo'
 export default {
   name: "NowPlaying",
   data() {
     return {
       moveList: [],
       pullDownMsg:'',
-      isLoading:true,
-      prevCityId:-1
+      isLoading:false,
+      prevCityId:-1,
+      index:0,
+      pic:[]
     };
   },
   activated() {
@@ -56,12 +74,20 @@ export default {
          this.prevCityId = cityId
 		
       }
+
+      for(let i =0;i<this.moveList.length;i++){
+          this.pic.push(this.moveList[i].img)
+          // console.log(this.pic);
+          
+      }
     });
   },
   methods:{
     handleToDetail(id){
   
-     this.$router.push('/movie/detail/1/'+id)
+     this.$router.push('/cityfilm/detail/'+id)
+     console.log(id);
+     
     },
     handleToScroll(pos){
       if(pos.y>30){
@@ -78,13 +104,27 @@ export default {
                        this.moveList = res.data.data.movieList;
                        this.pullDownMsg=''
                        },1000)
-                    
+
 
                    }
 
                 })
     }
-  }
+  },
+  handleToBack(){
+			this.$router.back()
+    },
+  changeIndex(index) {
+                if (index >= this.pics.length) {
+                  index = 0
+                }
+                this.index = index
+            }
+  },
+  components: {
+    Header,
+    TabBar,
+    Lunbo
   }
 };
 </script>
@@ -94,7 +134,32 @@ export default {
   flex: 1;
   overflow: auto;
 }
+ .one{
+    height: 600px;
+}
+
+.main-line{
+  position: relative;
+  height: 26px;
+  line-height: 26px;
+  font-weight: 700;
+  color: #ef4238;
+  background-color: azure;
+  border-top: 3px solid #555;
+  border-bottom: 3px solid #555;
+}
+.main-line .left{
+  position: absolute;
+  top: 0;
+  left: 10px;
+}
+.main-line .right{
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
 .movie_body ul {
+  /* height: 600px; */
   margin: 0 12px;
   overflow: hidden;
 }
@@ -151,8 +216,8 @@ export default {
   height: 27px;
   line-height: 28px;
   text-align: center;
-  background-color: yellow;
-  color: #333;
+  background-color: #ef4238;
+  color: #fff;
   border-radius: 4px;
   font-size: 12px;
   cursor: pointer;
